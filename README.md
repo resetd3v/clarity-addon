@@ -1,1 +1,1 @@
-clarity addon for meteor client
+clarity addon meteor sex

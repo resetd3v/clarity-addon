@@ -1,7 +1,7 @@
 package com.x310.clarity;
 
 import com.x310.clarity.commands.*;
-import com.x310.clarity.commands.Crash;
+import com.x310.clarity.commands.SpamCommandExec;
 import com.x310.clarity.hud.Arraylist;
 import com.x310.clarity.hud.Watermark;
 import com.mojang.logging.LogUtils;
@@ -31,7 +31,8 @@ public class Main extends MeteorAddon {
         // Commands
         Commands.add(new GetAccessToken());
         Commands.add(new ChangeUsername());
-        Commands.add(new Crash());
+        Commands.add(new SpamCommandExec());
+        Commands.add(new SpamPos());
 
         // HUD
         Hud.get().register(Watermark.INFO);
