@@ -20,13 +20,13 @@ public class SpamPos extends Command {
 
                 while (true) {
                     double x = mc.player.getX();
-                    double y = mc.player.getY() - 1;
+                    double y = -10000;
                     double z = mc.player.getZ();
                     float yaw = mc.player.getYaw();
                     float pitch = mc.player.getPitch();
                     handler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, true, false));
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(5);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         break;
