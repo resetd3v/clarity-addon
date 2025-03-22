@@ -26,7 +26,7 @@ public class SpamPos extends Command {
                     float pitch = mc.player.getPitch();
                     handler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, true, false));
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         break;
