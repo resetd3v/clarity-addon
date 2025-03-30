@@ -5,6 +5,7 @@ import com.x310.clarity.commands.SpamCommandExec;
 import com.x310.clarity.hud.Arraylist;
 import com.x310.clarity.hud.Watermark;
 import com.mojang.logging.LogUtils;
+import com.x310.clarity.modules.Canceller;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -27,6 +28,7 @@ public class Main extends MeteorAddon {
 
         // Modules
         Modules.get().add(new ClarityNametags());
+        Modules.get().add(new Canceller());
 
         // Commands
         Commands.add(new GetAccessToken());
