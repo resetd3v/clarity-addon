@@ -33,7 +33,7 @@ public class Watermark extends HudElement {
         int tps = (int) TickRate.INSTANCE.getTickRate();
         int ping = ping();
 
-        String text = String.format("clarity | FPS: %d | TPS: %d | Ping: %d", fps, tps, ping);
+        String text = String.format("clarity.gay | FPS: %d | TPS: %d | Ping: %d", fps, tps, ping);
 
         int textWidth = (int) renderer.textWidth(text, true);
         int textHeight = (int) renderer.textHeight(true);
