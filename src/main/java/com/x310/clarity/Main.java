@@ -4,8 +4,9 @@ import com.x310.clarity.commands.*;
 import com.x310.clarity.hud.Arraylist;
 import com.x310.clarity.hud.Watermark;
 import com.mojang.logging.LogUtils;
-import com.x310.clarity.modules.Canceller;
+import com.x310.clarity.modules.ChatBypass;
 import com.x310.clarity.modules.Crasher;
+import com.x310.clarity.modules.PacketCharge;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -28,8 +29,9 @@ public class Main extends MeteorAddon {
 
         // Modules
         Modules.get().add(new ClarityNametags());
-        Modules.get().add(new Canceller());
+        Modules.get().add(new PacketCharge());
         Modules.get().add(new Crasher());
+        Modules.get().add(new ChatBypass());
 
         // Commands
         Commands.add(new GetAccessToken());

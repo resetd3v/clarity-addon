@@ -7,10 +7,10 @@ import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
-public class Canceller extends Module {
+public class PacketCharge extends Module {
 
-    public Canceller() {
-        super(Main.CATEGORY, "Canceller", "cancel packet shit");
+    public PacketCharge() {
+        super(Main.CATEGORY, "Packet Charge", "Charges your packets as long as you\'re not moving");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST + 1)
