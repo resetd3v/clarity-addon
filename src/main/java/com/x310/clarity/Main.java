@@ -2,6 +2,8 @@ package com.x310.clarity;
 
 import com.x310.clarity.commands.*;
 import com.x310.clarity.hud.Arraylist;
+import com.x310.clarity.hud.ClarityChan;
+import com.x310.clarity.hud.Logo;
 import com.x310.clarity.hud.Watermark;
 import com.mojang.logging.LogUtils;
 import com.x310.clarity.modules.ChatBypass;
@@ -16,6 +18,7 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 
 import com.x310.clarity.modules.ClarityNametags;
+import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 
 public class Main extends MeteorAddon {
@@ -23,9 +26,10 @@ public class Main extends MeteorAddon {
     public static final Category CATEGORY = new Category("Clarity Addon");
     public static final HudGroup HUD_GROUP = new HudGroup("Clarity Addon");
 
+
     @Override
     public void onInitialize() {
-        LOG.info("Initializing Meteor Addon Template");
+        LOG.info("Initializing Clarity 0.2.0");
 
         // Modules
         Modules.get().add(new ClarityNametags());
@@ -33,13 +37,19 @@ public class Main extends MeteorAddon {
         Modules.get().add(new Crasher());
         Modules.get().add(new ChatBypass());
 
+
         // Commands
         Commands.add(new GetAccessToken());
         Commands.add(new ChangeUsername());
+        Commands.add(new SafeDisconnect());
 
         // HUD
         Hud.get().register(Watermark.INFO);
         Hud.get().register(Arraylist.INFO);
+        Hud.get().register(Logo.INFO);
+        Hud.get().register(ClarityChan.INFO);
+
+        MinecraftClient.getInstance().getWindow().setTitle("clarity 0.2.0 | Minecraft 1.21.4");
     }
 
     @Override
@@ -54,6 +64,6 @@ public class Main extends MeteorAddon {
 
     @Override
     public GithubRepo getRepo() {
-        return new GithubRepo("ck-clarity", "internal");
+        return new GithubRepo("ck-clarity", "addon");
     }
 }

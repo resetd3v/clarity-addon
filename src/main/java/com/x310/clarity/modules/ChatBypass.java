@@ -7,24 +7,28 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import meteordevelopment.orbit.EventPriority;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
 public class ChatBypass extends Module {
-    private final SettingGroup sgUnicode = settings.createGroup("Unicode Bypass");
-    private final SettingGroup sgMe = settings.createGroup("/m:me Bypass");
+    private final SettingGroup sgGeneral = settings.createGroup("Chat Bypass");
 
-    private final Setting<Boolean> unicodeBypass = sgUnicode.add(new BoolSetting.Builder()
+    private final Setting<Boolean> unicodeBypass = sgGeneral.add(new BoolSetting.Builder()
         .name("Unicode Bypass")
         .description("Replaces letters with Unicode lookalikes.")
         .defaultValue(false)
         .build()
     );
 
-    private final Setting<Boolean> meBypass = sgMe.add(new BoolSetting.Builder()
+    private final Setting<Boolean> meBypass = sgGeneral.add(new BoolSetting.Builder()
         .name("Me Bypass")
         .description("Adds /m:me before your message.")
+        .defaultValue(false)
+        .build()
+    );
+
+    private final Setting<Boolean> skillBypass = sgGeneral.add(new BoolSetting.Builder()
+        .name("Skill Bypass")
+        .description("Adds /skill before your message which bypasses spam limit.")
         .defaultValue(false)
         .build()
     );
@@ -43,11 +47,15 @@ public class ChatBypass extends Module {
 
         if (meBypass.get() && !message.startsWith("/")) {
             message = "/minecraft:me " + message;
+        }
 
+        if (skillBypass.get() && !message.startsWith("/")) {
+            message = "/skill " + message;
         }
         // im gonna kms thanks nxyi
         event.message = message;
-        if (event.message.startsWith("/")){
+
+        if (!event.message.startsWith("/skill") && event.message.startsWith("/")){
             ClientPlayNetworkHandler handler = mc.getNetworkHandler();
             handler.sendChatCommand(message.substring(1));
             event.cancel();

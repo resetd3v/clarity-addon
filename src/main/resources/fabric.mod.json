@@ -10,7 +10,7 @@
   "contact": {
     "repo": "https://github.com/Renovsk"
   },
-  "icon": "assets/template/icon.png",
+  "icon": "assets/clarity/textures/icon.png",
   "environment": "client",
   "entrypoints": {
     "meteor": [

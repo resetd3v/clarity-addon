@@ -4,25 +4,10 @@ import com.x310.clarity.Main;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
-import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.session.report.ChatAbuseReport;
-import net.minecraft.network.message.LastSeenMessageList;
-import net.minecraft.network.message.MessageSignatureData;
-import net.minecraft.network.packet.c2s.common.CommonPongC2SPacket;
-import net.minecraft.network.packet.c2s.common.KeepAliveC2SPacket;
-import net.minecraft.network.packet.c2s.login.LoginHelloC2SPacket;
 import net.minecraft.network.packet.c2s.play.*;
-import net.minecraft.recipe.NetworkRecipeId;
-import org.joml.Vector3d;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.BitSet;
-import java.util.UUID;
 
 public class Crasher extends Module {
     private final SettingGroup sgGeneral = settings.createGroup("General");
@@ -153,7 +138,7 @@ public class Crasher extends Module {
 
         if (devCrash.get()) {
             for (int i = 0; i < 19; i++) {
-//                handler.sendPacket(new Player());
+//                handler.sendPacket(new ());
             }
         }
 
