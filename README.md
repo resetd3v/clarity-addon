@@ -5,6 +5,9 @@
 
 # Clarity Addon
 This is an addon for meteor 1.21.4
+<h1 align="center">
+  <img src="https://r2.e-z.host/049cab41-5ed3-4a5c-a42f-5b83b721f333/on3doicd.png" alt="Header Image" style="width:70%; max-width:600px;"/>
+</h1>
 
 # Features
 ## Modules
