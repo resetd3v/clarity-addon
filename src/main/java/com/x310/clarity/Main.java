@@ -6,9 +6,7 @@ import com.x310.clarity.hud.ClarityChan;
 import com.x310.clarity.hud.Logo;
 import com.x310.clarity.hud.Watermark;
 import com.mojang.logging.LogUtils;
-import com.x310.clarity.modules.ChatBypass;
-import com.x310.clarity.modules.Crasher;
-import com.x310.clarity.modules.PacketCharge;
+import com.x310.clarity.modules.*;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -17,7 +15,6 @@ import meteordevelopment.meteorclient.systems.hud.HudGroup;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 
-import com.x310.clarity.modules.ClarityNametags;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 
@@ -36,12 +33,15 @@ public class Main extends MeteorAddon {
         Modules.get().add(new PacketCharge());
         Modules.get().add(new Crasher());
         Modules.get().add(new ChatBypass());
+        Modules.get().add(new ChannelFetch());
+        Modules.get().add(new PacketLogger());
 
 
         // Commands
         Commands.add(new GetAccessToken());
         Commands.add(new ChangeUsername());
         Commands.add(new SafeDisconnect());
+
 
         // HUD
         Hud.get().register(Watermark.INFO);
