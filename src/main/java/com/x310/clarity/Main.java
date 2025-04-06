@@ -7,6 +7,7 @@ import com.x310.clarity.hud.Logo;
 import com.x310.clarity.hud.Watermark;
 import com.mojang.logging.LogUtils;
 import com.x310.clarity.modules.*;
+import com.x310.clarity.modules.crashers.*;
 import com.x310.clarity.utils.payload.PaperCustomPayload;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
@@ -22,7 +23,8 @@ import org.slf4j.Logger;
 public class Main extends MeteorAddon {
     public static final Logger LOG = LogUtils.getLogger();
     public static final Category CATEGORY = new Category("Clarity Addon");
-    public static final HudGroup HUD_GROUP = new HudGroup("Clarity Addon");
+    public static final Category CRASH_GROUP = new Category("Clarity Crash");
+    public static final HudGroup HUD_GROUP = new HudGroup("Clarity");
 
 
     @Override
@@ -32,7 +34,11 @@ public class Main extends MeteorAddon {
         // Modules
         Modules.get().add(new ClarityNametags());
         Modules.get().add(new PacketCharge());
-        Modules.get().add(new Crasher());
+        Modules.get().add(new DevCrash());
+        Modules.get().add(new PaperOOMCrash());
+        Modules.get().add(new PositionCrash());
+        Modules.get().add(new SkillCrash());
+        Modules.get().add(new VelocityCrash());
         Modules.get().add(new ChatBypass());
         Modules.get().add(new ChannelFetch());
         Modules.get().add(new PacketLogger());
@@ -57,6 +63,7 @@ public class Main extends MeteorAddon {
     @Override
     public void onRegisterCategories() {
         Modules.registerCategory(CATEGORY);
+        Modules.registerCategory(CRASH_GROUP);
     }
 
     @Override
