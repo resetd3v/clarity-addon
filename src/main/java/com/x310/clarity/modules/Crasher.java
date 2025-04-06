@@ -111,12 +111,12 @@ public class Crasher extends Module {
     );
 
     private final Setting<Integer> paperOOMInterval = oomPaper.add(new IntSetting.Builder()
-        .name("Amount")
+        .name("Delay")
         .description("Time in ms until next payload is sent.")
         .defaultValue(2)
-        .min(1)
-        .max(1000)
-        .sliderMax(1000)
+        .min(2)
+        .max(10)
+        .sliderMax(10)
         .build()
     );
 

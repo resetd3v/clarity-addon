@@ -17,7 +17,6 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 
 public class Main extends MeteorAddon {
@@ -50,9 +49,9 @@ public class Main extends MeteorAddon {
         Hud.get().register(Arraylist.INFO);
         Hud.get().register(Logo.INFO);
         Hud.get().register(ClarityChan.INFO);
-		
+
 		// Payload register
-		PayloadTypeRegistry.playC2S().register(PaperCustomPayload.ID, PaperCustomPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(PaperCustomPayload.ID, PaperCustomPayload.CODEC);
     }
 
     @Override
