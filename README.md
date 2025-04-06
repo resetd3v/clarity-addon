@@ -11,7 +11,7 @@ This is an addon for meteor 1.21.4
 
 # Features
 ## Modules
-- Crasher (velocity, paper, pospam)
+- Crasher (velocity, paper, pospam, paperoom)
 - Packet Charger
 - Chat Bypass
 - Clarity Nametags
