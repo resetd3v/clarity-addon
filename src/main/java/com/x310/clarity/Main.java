@@ -7,6 +7,7 @@ import com.x310.clarity.hud.Logo;
 import com.x310.clarity.hud.Watermark;
 import com.mojang.logging.LogUtils;
 import com.x310.clarity.modules.*;
+import com.x310.clarity.utils.payload.PaperCustomPayload;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -15,6 +16,7 @@ import meteordevelopment.meteorclient.systems.hud.HudGroup;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 
@@ -26,7 +28,7 @@ public class Main extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-        LOG.info("Initializing Clarity 0.2.0");
+        LOG.info("Initializing Clarity 0.3.0");
 
         // Modules
         Modules.get().add(new ClarityNametags());
@@ -48,8 +50,9 @@ public class Main extends MeteorAddon {
         Hud.get().register(Arraylist.INFO);
         Hud.get().register(Logo.INFO);
         Hud.get().register(ClarityChan.INFO);
-
-        MinecraftClient.getInstance().getWindow().setTitle("clarity 0.2.0 | Minecraft 1.21.4");
+		
+		// Payload register
+		PayloadTypeRegistry.playC2S().register(PaperCustomPayload.ID, PaperCustomPayload.CODEC);
     }
 
     @Override
