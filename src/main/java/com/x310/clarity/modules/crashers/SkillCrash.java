@@ -1,6 +1,7 @@
 package com.x310.clarity.modules.crashers;
 
 import com.x310.clarity.Main;
+import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -10,6 +11,20 @@ import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
 
 public class SkillCrash extends Module {
     private final SettingGroup sg = settings.createGroup("Command Exec");
+
+    private final Setting<Boolean> disableOnLeave = sg.add(new BoolSetting.Builder()
+        .name("disable-on-leave")
+        .description("Disables spam when you leave a server.")
+        .defaultValue(true)
+        .build()
+    );
+
+    @EventHandler
+    private void onGameLeft(GameLeftEvent event) {
+        if (disableOnLeave.get()) {
+            toggle();
+        }
+    }
 
     private final Setting<Integer> amount = sg.add(new IntSetting.Builder()
         .name("Amount")

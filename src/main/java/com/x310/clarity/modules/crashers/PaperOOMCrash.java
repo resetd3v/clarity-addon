@@ -2,13 +2,34 @@ package com.x310.clarity.modules.crashers;
 
 import com.x310.clarity.Main;
 import com.x310.clarity.utils.payload.PaperCustomPayload;
+import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
 
 public class PaperOOMCrash extends Module {
     private final SettingGroup sg = settings.createGroup("Paper OOM");
+    private final Setting<Boolean> disableOnLeave = sg.add(new BoolSetting.Builder()
+        .name("disable-on-leave")
+        .description("Disables spam when you leave a server.")
+        .defaultValue(true)
+        .build()
+    );
+
+    private void stopOomThread() {
+        running = false;
+        thread = null;
+    }
+
+    @EventHandler
+    private void onGameLeft(GameLeftEvent event) {
+        if (disableOnLeave.get()) {
+            toggle();
+            stopOomThread();
+        }
+    }
 
     private final Setting<Integer> interval = sg.add(new IntSetting.Builder()
         .name("Delay")
