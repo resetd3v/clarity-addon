@@ -3,9 +3,13 @@
   "package": "com.x310.clarity.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "ClientPlayerEntityMixin",
     "EntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "ClientConnectionMixin"
+  ]
 }
