@@ -20,12 +20,14 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+
 public class Main extends MeteorAddon {
     public static final Logger LOG = LogUtils.getLogger();
     public static final Category CATEGORY = new Category("Clarity Addon");
     public static final Category CRASH_GROUP = new Category("Clarity Crash");
     public static final HudGroup HUD_GROUP = new HudGroup("Clarity");
-
+    public static final ArrayList<String> delayedMessages = new ArrayList<>();
 
     @Override
     public void onInitialize() {

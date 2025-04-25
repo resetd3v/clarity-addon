@@ -14,12 +14,4 @@ public class ChannelFetch extends Module {
         super(Main.CATEGORY, "Channel Fetcher", "gets the current open channels in the minecraft server");
     }
 
-    @EventHandler()
-    public static void onPacketReceive(PacketEvent.Receive event) {
-        if (event.packet instanceof CustomPayloadS2CPacket(CustomPayload payload)) {
-            ChatUtils.info("Channel: " + payload.getId().id());
-
-        }
-    }
-
 }
