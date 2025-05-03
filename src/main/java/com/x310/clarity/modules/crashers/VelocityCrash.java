@@ -47,7 +47,7 @@ public class VelocityCrash extends Module {
         .name("Buffer")
         .description("Buffer length.")
         .defaultValue(200)
-        .min(1)
+        .min(0)
         .max(256)
         .sliderMax(256)
         .build()
