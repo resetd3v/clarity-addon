@@ -44,6 +44,7 @@ public class Main extends MeteorAddon {
         Modules.get().add(new ChatBypass());
         Modules.get().add(new ChannelFetch());
         Modules.get().add(new PacketLogger());
+        Modules.get().add(new SkillCrash2());
 
 
         // Commands
