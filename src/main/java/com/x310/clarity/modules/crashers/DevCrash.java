@@ -15,9 +15,9 @@ import net.minecraft.recipe.NetworkRecipeId;
 
 public class DevCrash extends Module {
     public DevCrash() {
-        super(Main.CRASH_GROUP, "Dev Crash", "dev shit");
+        super(Main.CRASH_GROUP, "Spigot Crash", "dev shit");
     }
-    private final SettingGroup sg = settings.createGroup("Dev");
+    private final SettingGroup sg = settings.createGroup("spigot");
     private final Setting<Boolean> disableOnLeave = sg.add(new BoolSetting.Builder()
         .name("disable-on-leave")
         .description("Disables spam when you leave a server.")
@@ -33,12 +33,12 @@ public class DevCrash extends Module {
     }
 
     private final Setting<Integer> buffer = sg.add(new IntSetting.Builder()
-        .name("Buffer")
-        .description("Buffer length.")
-        .defaultValue(200)
+        .name("Amount")
+        .description("Amount of packets to send every tick")
+        .defaultValue(3000)
         .min(1)
-        .max(100)
-        .sliderMax(100)
+        .max(100000)
+        .sliderMax(100000)
         .build()
     );
 
