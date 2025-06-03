@@ -36,7 +36,8 @@ public class Main extends MeteorAddon {
         // Modules
         Modules.get().add(new ClarityNametags());
         Modules.get().add(new PacketCharge());
-        Modules.get().add(new DevCrash());
+        Modules.get().add(new OhioCrash());
+        Modules.get().add(new RecipeCrash());
         Modules.get().add(new PaperOOMCrash());
         Modules.get().add(new PositionCrash());
         Modules.get().add(new SkillCrash());
@@ -45,6 +46,7 @@ public class Main extends MeteorAddon {
         Modules.get().add(new ChannelFetch());
         Modules.get().add(new PacketLogger());
         Modules.get().add(new SkillCrash2());
+        Modules.get().add(new BungeeGuard());
 
 
         // Commands
