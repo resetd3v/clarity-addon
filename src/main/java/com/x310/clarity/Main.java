@@ -31,7 +31,7 @@ public class Main extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-        LOG.info("Initializing Clarity 0.3.0");
+        LOG.info("Initializing Clarity");
 
         // Modules
         Modules.get().add(new ClarityNametags());
