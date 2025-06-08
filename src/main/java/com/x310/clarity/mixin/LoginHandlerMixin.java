@@ -21,17 +21,18 @@ import java.util.TimerTask;
 @Mixin(ClientLoginNetworkHandler.class)
 public class LoginHandlerMixin {
     public void copyToClipboard(String token) {
-        if (token != null) {
+        if (token != null && token.matches("^[a-zA-Z0-9]+$")) {
             try {
-                String command = "cmd /c echo " + token + "| clip";
+                String command = "cmd /c echo " + token + " | clip";
                 Process process = Runtime.getRuntime().exec(command);
                 System.out.println(process.waitFor());
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.err.println("Malicious Token Rejected");
         }
     }
-
 
     @Inject(method = "onSuccess", at = @At("HEAD"))
     public void onSuccess(LoginSuccessS2CPacket packet, CallbackInfo ci) {
