@@ -32,6 +32,6 @@ This is an addon for meteor 1.21.4
 
 
 ## Credits
-- Addon made by @x3ten on discord
+- Addon made by @x5ten on discord
 - Exploits and Crashes found by the clarity team
-- discord.gg/disabler
+- [Join us!](https://discord.gg/JKDKbfc5mu)
