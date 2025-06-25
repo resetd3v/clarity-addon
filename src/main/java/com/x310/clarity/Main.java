@@ -47,7 +47,9 @@ public class Main extends MeteorAddon {
         Modules.get().add(new PacketLogger());
         Modules.get().add(new SkillCrash2());
         Modules.get().add(new BungeeGuard());
-
+        Modules.get().add(new BetterBoatFly());
+        Modules.get().add(new BoatUAV());
+        Modules.get().add(new BoatPlace());
 
         // Commands
         Commands.add(new GetAccessToken());
