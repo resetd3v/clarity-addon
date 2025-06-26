@@ -15,7 +15,9 @@ This is an addon for meteor 1.21.4
 - Packet Charger
 - Chat Bypass
 - Clarity Nametags
-
+- BoatPlace
+- BoatUAV
+- BetterBoatFly 
 ## Commands
 - getaccesstoken (gets ur current mc access token)
 - changeusername <accesstoken> <username> (changes ur username with ur access token)
@@ -30,6 +32,6 @@ This is an addon for meteor 1.21.4
 
 
 ## Credits
-- Addon made by @x3ten on discord
+- Addon made by @x5ten on discord
 - Exploits and Crashes found by the clarity team
-- discord.gg/disabler
+- [Join us!](https://discord.gg/JKDKbfc5mu)
