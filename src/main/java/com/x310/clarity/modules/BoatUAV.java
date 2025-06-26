@@ -39,8 +39,8 @@ public class BoatUAV extends Module {
         .name("max-y-delta")
         .description("Maximum vertical movement per tick.")
         .defaultValue(5.0)
-        .range(0.1, 10.0)
-        .sliderRange(0.1, 10.0)
+        .range(0.1, 100.0)
+        .sliderRange(0.1, 100.0)
         .build()
     );
 
@@ -48,24 +48,35 @@ public class BoatUAV extends Module {
         .name("max-xz-delta")
         .description("Maximum horizontal movement per tick.")
         .defaultValue(0.5)
-        .range(0.05, 5.0)
-        .sliderRange(0.05, 5.0)
+        .range(0.05, 15.0)
+        .sliderRange(0.05, 15.0)
         .build()
     );
 
     public final Setting<Integer> bowSpamDelay = sgGeneral.add(new IntSetting.Builder()
         .name("bow-spam-delay")
         .description("Delay between bow releases in ticks.")
+        .defaultValue(1)
+        .range(1, 20)
+        .sliderRange(1, 20)
+        .build()
+    );
+
+    public final Setting<Integer> xzUpdateDelay = sgGeneral.add(new IntSetting.Builder()
+        .name("xz-delay")
+        .description("Number of ticks between XZ movement updates.")
         .defaultValue(2)
         .range(1, 20)
         .sliderRange(1, 20)
         .build()
     );
 
+
     private static final MinecraftClient mc = MinecraftClient.getInstance();
     private enum State { MOVING_UP_Y_1, MOVING_UP_Y_2, MOVING_DOWN_Y }
     private State currentState = State.MOVING_UP_Y_1;
     private PlayerEntity targetPlayer = null;
+    private int xzTickCounter = 0;
     private Vec3d lastSentPos = null;
     private double yTarget = 0.0;
     private boolean wasBow = false;
@@ -98,7 +109,7 @@ public class BoatUAV extends Module {
 
         currentState = State.MOVING_UP_Y_1;
         lastSentPos = mc.player.getPos();
-        yTarget = targetPlayer.getY() + 40;
+        yTarget = targetPlayer.getY() + 50;
         wasBow = false;
         bowTickCounter = 0;
     }
@@ -143,7 +154,7 @@ public class BoatUAV extends Module {
             }
 
             if (currentState == State.MOVING_UP_Y_1) {
-                yTarget = targetPlayer.getY() + 40;
+                yTarget = targetPlayer.getY() + 50;
             }
         }
 
@@ -153,6 +164,11 @@ public class BoatUAV extends Module {
         double finalYTarget = currentState == State.MOVING_UP_Y_2 ? targetPos.y + 80 : targetPos.y + 10;
 
         handleMovement(boat, targetPos, finalYTarget);
+
+        if (xzTickCounter++ >= xzUpdateDelay.get()) {
+            updateXZ(boat, targetPos);
+            xzTickCounter = 0;
+        }
 
         if (currentState == State.MOVING_DOWN_Y) {
             if (!mc.player.getAbilities().creativeMode && !InvUtils.find(itemStack -> itemStack.getItem() instanceof ArrowItem).found()) {
@@ -187,35 +203,42 @@ public class BoatUAV extends Module {
         }
     }
 
-    private void handleMovement(BoatEntity boat, Vec3d targetPos, double targetY) {
-        double currentX = lastSentPos.x;
-        double currentY = lastSentPos.y;
-        double currentZ = lastSentPos.z;
+    private void updateXZ(BoatEntity boat, Vec3d targetPos) {
+        double xDelta = targetPos.x - lastSentPos.x;
+        double zDelta = targetPos.z - lastSentPos.z;
 
-        double yDelta = (currentState == State.MOVING_UP_Y_1 ? yTarget : targetY) - currentY;
-        double moveY = Math.max(-maxYDelta.get(), Math.min(maxYDelta.get(), yDelta));
-
-        double xDelta = targetPos.x - currentX;
-        double zDelta = targetPos.z - currentZ;
         double moveX = Math.max(-maxXZDelta.get(), Math.min(maxXZDelta.get(), xDelta));
         double moveZ = Math.max(-maxXZDelta.get(), Math.min(maxXZDelta.get(), zDelta));
 
-        Vec3d newPos = new Vec3d(currentX + moveX, currentY + moveY, currentZ + moveZ);
+        Vec3d newXZPos = new Vec3d(lastSentPos.x + moveX, lastSentPos.y, lastSentPos.z + moveZ);
+        sendMovePacket(boat, newXZPos);
+    }
+
+
+    private void handleMovement(BoatEntity boat, Vec3d targetPos, double targetY) {
+        double currentY = lastSentPos.y;
+        double yDelta = (currentState == State.MOVING_UP_Y_1 ? yTarget : targetY) - currentY;
+        double moveY = Math.max(-maxYDelta.get(), Math.min(maxYDelta.get(), yDelta));
+
+        Vec3d newPos = new Vec3d(lastSentPos.x, currentY + moveY, lastSentPos.z);
 
         if (Math.abs(yDelta) < maxYDelta.get()) {
-            if (currentState == State.MOVING_UP_Y_1) {
-                currentState = State.MOVING_UP_Y_2;
-                yTarget = targetPos.y + 80;
-            } else if (currentState == State.MOVING_UP_Y_2) {
-                currentState = State.MOVING_DOWN_Y;
-            } else if (currentState == State.MOVING_DOWN_Y) {
-                currentState = State.MOVING_UP_Y_1;
-                yTarget = targetPos.y + 40;
+            switch (currentState) {
+                case MOVING_UP_Y_1 -> {
+                    currentState = State.MOVING_UP_Y_2;
+                    yTarget = targetPos.y + 80;
+                }
+                case MOVING_UP_Y_2 -> currentState = State.MOVING_DOWN_Y;
+                case MOVING_DOWN_Y -> {
+                    currentState = State.MOVING_UP_Y_1;
+                    yTarget = targetPos.y + 40;
+                }
             }
         }
 
         sendMovePacket(boat, newPos);
     }
+
 
     private void sendMovePacket(BoatEntity boat, Vec3d newPos) {
         mc.player.networkHandler.sendPacket(new VehicleMoveC2SPacket(newPos, boat.getYaw(), boat.getPitch(), false));

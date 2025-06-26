@@ -132,7 +132,7 @@ public class BetterBoatFly extends Module {
         double velY = 0.0;
 
         if (mc.options.jumpKey.isPressed()) velY += verticalSpeed.get() / 20.0;
-        if (mc.options.sneakKey.isPressed()) velY -= verticalSpeed.get() / 20.0;
+        if (mc.options.sprintKey.isPressed()) velY -= verticalSpeed.get() / 20.0;
         else velY -= fallSpeed.get() / 20.0;
 
         ((IVec3d) event.boat.getVelocity()).meteor$set(velX, velY, velZ);
