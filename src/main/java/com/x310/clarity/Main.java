@@ -41,6 +41,7 @@ public class Main extends MeteorAddon {
         Modules.get().add(new PaperOOMCrash());
         Modules.get().add(new PositionCrash());
         Modules.get().add(new SkillCrash());
+        Modules.get().add(new PacketDelay());
         Modules.get().add(new VelocityCrash());
         Modules.get().add(new ChatBypass());
         Modules.get().add(new ChannelFetch());
