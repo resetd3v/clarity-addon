@@ -55,6 +55,7 @@ public class Main extends MeteorAddon {
         // Commands
         Commands.add(new GetAccessToken());
         Commands.add(new ChangeUsername());
+        Commands.add(new ClickSlot());
         Commands.add(new SafeDisconnect());
 
 
