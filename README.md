@@ -30,10 +30,10 @@ This is an addon for meteor 1.21.4
 
 
 ## Commands
-- clickslot <slot> <button> <count> <type>
-- changeusername <accesstoken> <username>
-- getaccesstoken
-- safedisconnect
+- `clickslot <slot> <button> <count> <type>`
+- `changeusername <accesstoken> <username>`
+- `getaccesstoken`
+- `safedisconnect`
 
 ## HUD
 - Clarity-Chan
