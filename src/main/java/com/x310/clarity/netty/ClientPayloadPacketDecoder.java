@@ -1,7 +1,7 @@
 package com.x310.clarity.netty;
 
 import com.x310.clarity.Main;
-import com.x310.clarity.modules.ChannelFetch;
+import com.x310.clarity.features.modules.impl.ChannelFetch;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;

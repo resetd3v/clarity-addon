@@ -1,12 +1,11 @@
-package com.x310.clarity.modules;
+package com.x310.clarity.features.modules.impl;
 
 import com.x310.clarity.Main;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.PacketListSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.systems.modules.Categories;
-import meteordevelopment.meteorclient.systems.modules.Module;
+import com.x310.clarity.features.modules.Module;
 import meteordevelopment.meteorclient.utils.network.PacketUtils;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
@@ -18,16 +17,16 @@ import java.util.List;
 import java.util.Set;
 
 public class PacketDelay extends Module {
-    private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
-    private final Setting<Set<Class<? extends Packet<?>>>> s2cPackets = sgGeneral.add(new PacketListSetting.Builder()
+
+    private final Setting<Set<Class<? extends Packet<?>>>> s2cPackets = sg.add(new PacketListSetting.Builder()
         .name("s2c-packets")
         .description("s2c packets to hold until module is disabled.")
         .filter(aClass -> PacketUtils.getS2CPackets().contains(aClass))
         .build()
     );
 
-    private final Setting<Set<Class<? extends Packet<?>>>> c2sPackets = sgGeneral.add(new PacketListSetting.Builder()
+    private final Setting<Set<Class<? extends Packet<?>>>> c2sPackets = sg.add(new PacketListSetting.Builder()
         .name("c2s-packets")
         .description("c2s packets to hold until module is disabled.")
         .filter(aClass -> PacketUtils.getC2SPackets().contains(aClass))

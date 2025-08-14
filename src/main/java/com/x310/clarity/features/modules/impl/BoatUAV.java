@@ -1,10 +1,10 @@
-package com.x310.clarity.modules;
+package com.x310.clarity.features.modules.impl;
 
 import com.x310.clarity.Main;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Module;
+import com.x310.clarity.features.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -18,15 +18,14 @@ import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 
 public class BoatUAV extends Module {
-    private final SettingGroup sgGeneral = settings.getDefaultGroup();
-    public final Setting<Boolean> autoTrack = sgGeneral.add(new BoolSetting.Builder()
+    public final Setting<Boolean> autoTrack = sg.add(new BoolSetting.Builder()
         .name("AutoTrack")
         .description("Automatically tracks the closest player's X and Z coordinates.")
         .defaultValue(true)
         .build()
     );
 
-    private final Setting<Integer> charge = sgGeneral.add(new IntSetting.Builder()
+    private final Setting<Integer> charge = sg.add(new IntSetting.Builder()
         .name("charge")
         .description("How long to charge the bow before releasing in ticks.")
         .defaultValue(5)
@@ -35,7 +34,7 @@ public class BoatUAV extends Module {
         .build()
     );
 
-    public final Setting<Double> maxYDelta = sgGeneral.add(new DoubleSetting.Builder()
+    public final Setting<Double> maxYDelta = sg.add(new DoubleSetting.Builder()
         .name("max-y-delta")
         .description("Maximum vertical movement per tick.")
         .defaultValue(5.0)
@@ -44,7 +43,7 @@ public class BoatUAV extends Module {
         .build()
     );
 
-    public final Setting<Double> maxXZDelta = sgGeneral.add(new DoubleSetting.Builder()
+    public final Setting<Double> maxXZDelta = sg.add(new DoubleSetting.Builder()
         .name("max-xz-delta")
         .description("Maximum horizontal movement per tick.")
         .defaultValue(0.5)
@@ -53,7 +52,7 @@ public class BoatUAV extends Module {
         .build()
     );
 
-    public final Setting<Integer> bowSpamDelay = sgGeneral.add(new IntSetting.Builder()
+    public final Setting<Integer> bowSpamDelay = sg.add(new IntSetting.Builder()
         .name("bow-spam-delay")
         .description("Delay between bow releases in ticks.")
         .defaultValue(1)
@@ -62,7 +61,7 @@ public class BoatUAV extends Module {
         .build()
     );
 
-    public final Setting<Integer> xzUpdateDelay = sgGeneral.add(new IntSetting.Builder()
+    public final Setting<Integer> xzUpdateDelay = sg.add(new IntSetting.Builder()
         .name("xz-delay")
         .description("Number of ticks between XZ movement updates.")
         .defaultValue(2)

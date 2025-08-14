@@ -1,8 +1,8 @@
-package com.x310.clarity.modules;
+package com.x310.clarity.features.modules.impl;
 
 import com.x310.clarity.Main;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
-import meteordevelopment.meteorclient.systems.modules.Module;
+import com.x310.clarity.features.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.MinecraftClient;

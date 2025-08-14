@@ -1,4 +1,4 @@
-package com.x310.clarity.modules;
+package com.x310.clarity.features.modules.impl;
 
 import com.x310.clarity.Main;
 import java.util.List;
@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.DoubleSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.systems.modules.Module;
+import com.x310.clarity.features.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -30,9 +30,8 @@ public class BetterBoatFly extends Module {
 
     public BetterBoatFly() {
         super(Main.CATEGORY, "better-boat-fly", "Transforms your boat into a plane.");
-        SettingGroup sgGeneral = settings.getDefaultGroup();
 
-        speed = sgGeneral.add(new DoubleSetting.Builder()
+        speed = sg.add(new DoubleSetting.Builder()
             .name("speed")
             .description("Horizontal speed in blocks per second.")
             .defaultValue(10.0)
@@ -40,7 +39,7 @@ public class BetterBoatFly extends Module {
             .sliderMax(50.0)
             .build());
 
-        verticalSpeed = sgGeneral.add(new DoubleSetting.Builder()
+        verticalSpeed = sg.add(new DoubleSetting.Builder()
             .name("vertical-speed")
             .description("Vertical speed in blocks per second.")
             .defaultValue(6.0)
@@ -48,26 +47,26 @@ public class BetterBoatFly extends Module {
             .sliderMax(20.0)
             .build());
 
-        fallSpeed = sgGeneral.add(new DoubleSetting.Builder()
+        fallSpeed = sg.add(new DoubleSetting.Builder()
             .name("fall-speed")
             .description("How fast you fall in blocks per second.")
             .defaultValue(0.1)
             .min(0.0)
             .build());
 
-        cancelServerPackets = sgGeneral.add(new BoolSetting.Builder()
+        cancelServerPackets = sg.add(new BoolSetting.Builder()
             .name("cancel-server-packets")
             .description("Cancels incoming boat move packets.")
             .defaultValue(false)
             .build());
 
-        autoMount = sgGeneral.add(new BoolSetting.Builder()
+        autoMount = sg.add(new BoolSetting.Builder()
             .name("boat-auto-mount")
             .description("Automatically mounts the nearest boat if not already riding one.")
             .defaultValue(false)
             .build());
 
-        rotate = sgGeneral.add(new BoolSetting.Builder()
+        rotate = sg.add(new BoolSetting.Builder()
             .name("rotate")
             .description("Faces the boat before mounting.")
             .defaultValue(true)

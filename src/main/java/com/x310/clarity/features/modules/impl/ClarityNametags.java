@@ -1,4 +1,4 @@
-package com.x310.clarity.modules;
+package com.x310.clarity.features.modules.impl;
 
 import com.x310.clarity.Main;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
@@ -6,7 +6,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.config.Config;
-import meteordevelopment.meteorclient.systems.modules.Module;
+import com.x310.clarity.features.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.NameProtect;
 import meteordevelopment.meteorclient.renderer.Renderer2D;
@@ -26,7 +26,6 @@ import org.joml.Vector3d;
 import java.util.*;
 
 public class ClarityNametags extends Module {
-    private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgPlayers = settings.createGroup("Players");
     private final SettingGroup sgRender = settings.createGroup("Render");
     private final Setting<SettingColor> nameColor = sgRender.add(((ColorSetting.Builder)((ColorSetting.Builder)(new ColorSetting.Builder())
@@ -41,20 +40,28 @@ public class ClarityNametags extends Module {
     private final Color AMBER = new Color(255, 105, 25);
     private final Color background = new Color(50, 50, 50, 255);
 
-    private final Setting<Double> scale = sgGeneral.add(new DoubleSetting.Builder()
+    private final Setting<Double> padding = sg.add(new DoubleSetting.Builder()
+        .name("Padding")
+        .defaultValue(1F)
+        .min(-5F)
+        .max(5F)
+        .build()
+    );
+
+    private final Setting<Double> scale = sg.add(new DoubleSetting.Builder()
         .name("Scale")
         .defaultValue(1F)
         .build()
     );
 
     private final List<Entity> entityList = new ArrayList<Entity>();
-    private final Setting<Boolean> culling = sgGeneral.add(new BoolSetting.Builder()
+    private final Setting<Boolean> culling = sg.add(new BoolSetting.Builder()
         .name("Culling")
         .defaultValue(false)
         .build()
     );
 
-    private final Setting<Integer> maxCullCount = sgGeneral.add(new IntSetting.Builder()
+    private final Setting<Integer> maxCullCount = sg.add(new IntSetting.Builder()
         .name("Max Cull Count")
         .defaultValue(20)
         .build()
@@ -112,7 +119,7 @@ public class ClarityNametags extends Module {
         Color healthColor = healthPercentage <= 0.333 ? this.RED : (healthPercentage <= 0.666 ? this.AMBER : this.GREEN);
         double nameWidth = text.getWidth(name, shadow);
         double healthWidth = text.getWidth(healthText, shadow);
-        double width = nameWidth + ((Boolean) this.displayHealth.get() ? healthWidth : 0);
+        double width = nameWidth + ((Boolean) this.displayHealth.get() ? healthWidth : 0) / 2.0;
         double widthHalf = width / 2.0;
         double height = text.getHeight(shadow);
         text.beginBig();
@@ -131,13 +138,9 @@ public class ClarityNametags extends Module {
 
     private double getHeight(Entity entity) {
         double height = (double)entity.getEyeHeight(entity.getPose());
-        if (entity.getType() != EntityType.ITEM && entity.getType() != EntityType.ITEM_FRAME) {
-            height += (double)0.5F;
-        } else {
-            height += 0.2;
-        }
-
-        return height;
+        return (entity.getType() != EntityType.ITEM && entity.getType() != EntityType.ITEM_FRAME) ?
+            height + 0.5F :
+            height + 0.2F;
     }
 
     @EventHandler

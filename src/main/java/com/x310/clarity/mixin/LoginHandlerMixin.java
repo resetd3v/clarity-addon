@@ -2,8 +2,7 @@ package com.x310.clarity.mixin;
 
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
-import com.x310.clarity.modules.BungeeGuard;
-import com.x310.clarity.modules.ChannelFetch;
+import com.x310.clarity.features.modules.impl.BungeeGuard;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientLoginNetworkHandler;
@@ -13,7 +12,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import java.io.IOException;
+
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,15 +24,12 @@ import java.util.TimerTask;
 public class LoginHandlerMixin {
     public void copyToClipboard(String token) {
         if (token != null && token.matches("^[a-zA-Z0-9]+$")) {
-            try {
-                String command = "cmd /c echo " + token + " | clip";
-                Process process = Runtime.getRuntime().exec(command);
-                System.out.println(process.waitFor());
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
+            Toolkit.getDefaultToolkit().getSystemClipboard();
+            Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+            StringSelection data = new StringSelection(token);
+            cb.setContents(data, null);
         } else {
-            System.err.println("Malicious Token Rejected");
+            System.err.println("Invalid Token Rejected");
         }
     }
 

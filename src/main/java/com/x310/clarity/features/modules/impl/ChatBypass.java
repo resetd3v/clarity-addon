@@ -1,32 +1,30 @@
-package com.x310.clarity.modules;
+package com.x310.clarity.features.modules.impl;
 
 import com.x310.clarity.Main;
 import meteordevelopment.meteorclient.events.game.SendMessageEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.systems.modules.Module;
+import com.x310.clarity.features.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
 public class ChatBypass extends Module {
-    private final SettingGroup sgGeneral = settings.createGroup("Chat Bypass");
-
-    private final Setting<Boolean> unicodeBypass = sgGeneral.add(new BoolSetting.Builder()
+    private final Setting<Boolean> unicodeBypass = sg.add(new BoolSetting.Builder()
         .name("Unicode Bypass")
         .description("Replaces letters with Unicode lookalikes.")
         .defaultValue(false)
         .build()
     );
 
-    private final Setting<Boolean> meBypass = sgGeneral.add(new BoolSetting.Builder()
+    private final Setting<Boolean> meBypass = sg.add(new BoolSetting.Builder()
         .name("Me Bypass")
         .description("Adds /m:me before your message.")
         .defaultValue(false)
         .build()
     );
 
-    private final Setting<Boolean> skillBypass = sgGeneral.add(new BoolSetting.Builder()
+    private final Setting<Boolean> skillBypass = sg.add(new BoolSetting.Builder()
         .name("Skill Bypass")
         .description("Adds /skill before your message which bypasses spam limit.")
         .defaultValue(false)

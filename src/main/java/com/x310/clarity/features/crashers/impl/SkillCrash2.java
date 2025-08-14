@@ -1,11 +1,10 @@
-package com.x310.clarity.modules.crashers;
+package com.x310.clarity.features.crashers.impl;
 
 import com.x310.clarity.Main;
-import meteordevelopment.meteorclient.events.game.GameLeftEvent;
+import com.x310.clarity.features.crashers.Crasher;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.ClientPlayNetworkHandlerAccessor;
 import meteordevelopment.meteorclient.settings.*;
-import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.encryption.NetworkEncryptionUtils;
@@ -13,27 +12,10 @@ import net.minecraft.network.message.LastSeenMessagesCollector;
 import net.minecraft.network.message.MessageBody;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
 
 import java.time.Instant;
 
-public class SkillCrash2 extends Module {
-    private final SettingGroup sg = settings.createGroup("Command Exec");
-
-    private final Setting<Boolean> disableOnLeave = sg.add(new BoolSetting.Builder()
-        .name("disable-on-leave")
-        .description("Disables spam when you leave a server.")
-        .defaultValue(true)
-        .build()
-    );
-
-    @EventHandler
-    private void onGameLeft(GameLeftEvent event) {
-        if (disableOnLeave.get()) {
-            toggle();
-        }
-    }
-
+public class SkillCrash2 extends Crasher {
     private final Setting<Integer> amount = sg.add(new IntSetting.Builder()
         .name("Amount")
         .description("Packets per tick.")
